@@ -320,8 +320,13 @@ async function join(name) {
   signaling.connect();
 }
 
+// In der Android-App gibt es window.LanVoiceNative: Sie startet einen Vordergrunddienst, damit
+// Mikrofon und Verbindung auch im Hintergrund laufen. Im normalen Browser ist das undefined.
+const nativeApp = window.LanVoiceNative;
+
 function enterRoom() {
   state.inRoom = true;
+  if (nativeApp) nativeApp.setActive(true, $('room-name').textContent);
   $('join-view').hidden = true;
   $('room-view').hidden = false;
   audio.startMeters(updateSpeaking);
@@ -331,6 +336,7 @@ function enterRoom() {
 
 async function leaveRoom(reason) {
   state.inRoom = false;
+  if (nativeApp) nativeApp.setActive(false, '');
   audio.stopMeters();
   ptt.release();
   if (signaling) await signaling.leave();
@@ -454,6 +460,10 @@ $('mute-btn').addEventListener('click', () => {
   applyTransmit();
 });
 $('leave-btn').addEventListener('click', () => leaveRoom());
+if (nativeApp) {
+  $('native-server').hidden = false;
+  $('native-server').addEventListener('click', () => nativeApp.changeServer());
+}
 
 $('name').value = settings.name;
 try {

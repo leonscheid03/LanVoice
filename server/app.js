@@ -2,6 +2,7 @@
 // Setzt alle Server-Teile zusammen. Getrennt vom CLI (index.js), damit Tests den Server starten können.
 const os = require('node:os');
 const path = require('node:path');
+const { X509Certificate } = require('node:crypto');
 const { listLanAddresses } = require('./netinfo');
 const { ensureCert } = require('./cert');
 const { Room } = require('./room');
@@ -46,6 +47,8 @@ async function createApp({
     room,
     addresses,
     certCreated: created,
+    // Für die Android-App: Sie fragt beim ersten Verbinden nach diesem Fingerabdruck.
+    certFingerprint: new X509Certificate(cert).fingerprint256,
     port: listener.address().port,
     close() {
       signaling.close();

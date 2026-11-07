@@ -83,6 +83,10 @@ async function joined(name, n) {
   return c;
 }
 
+test('Zertifikat-Fingerabdruck liegt als SHA-256 vor (für die Android-App)', () => {
+  assert.match(app.certFingerprint, /^([0-9A-F]{2}:){31}[0-9A-F]{2}$/);
+});
+
 test('HTTPS und Klartext-HTTP laufen auf demselben Port', async () => {
   const s = await get('https', '/');
   assert.equal(s.status, 200);

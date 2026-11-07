@@ -49,6 +49,20 @@ Warum HTTPS? Browser erlauben Mikrofonzugriff nur in einem sicheren Kontext. Das
 
 Ein Port für alles: Auf demselben Port nimmt der Server HTTP (nur Hilfeseite für Gäste) und HTTPS (die App) entgegen.
 
+## Android-App (läuft auch im Hintergrund)
+
+Ein Browser darf das Mikrofon im Hintergrund nicht offen halten. Deshalb gibt es für Android eine kleine App (`download/LanVoice.apk`). Sie zeigt dieselbe Weboberfläche vom eigenen Server, startet aber im Raum einen Vordergrunddienst (dauerhafte Benachrichtigung „Mikrofon aktiv“), der Mikrofon und Verbindung am Leben hält.
+
+1. APK aufs Handy laden und installieren (Android fragt einmalig nach „Installation aus unbekannten Quellen“).
+2. App öffnen, Adresse des Servers eingeben (steht im Terminal, z. B. `192.168.2.126:8443`), „Verbinden“.
+3. Beim ersten Mal zeigt die App den **Fingerabdruck** des Zertifikats. Mit der Zeile „Zertifikat-Fingerabdruck“ im Terminal des Servers vergleichen und „Vertrauen“ tippen. Danach gibt es keine Browser-Warnung mehr. Ändert sich das Zertifikat (z. B. neue IP), fragt die App erneut.
+4. Mikrofon und Benachrichtigungen erlauben, die Akku-Optimierung für die App ausschalten (die App fragt einmal danach).
+5. Wie im Browser beitreten. Zurück-Taste schiebt die App in den Hintergrund; „Verlassen“ in der Benachrichtigung oder in der App beendet.
+
+Grenzen: Manche Hersteller (Xiaomi, Huawei, Samsung u. a.) beenden Hintergrund-Apps trotzdem; dann in den Energiespar-/Autostart-Einstellungen der App alles erlauben. Die APK ist eine Debug-Version (nur zum Weitergeben, nicht für den Play Store). Auf dem Handy bitte prüfen: Ton in beide Richtungen bei ausgeschaltetem Bildschirm, 10 Minuten oder länger.
+
+Selbst bauen: Android-SDK (Plattform 35) und JDK 17+ nötig; im Ordner `android/` dann `gradlew assembleDebug` (Ergebnis: `app/build/outputs/apk/debug/app-debug.apk`). Die App besteht aus drei Kotlin-Dateien ohne Zusatzbibliotheken.
+
 ## Fehlerbehebung
 
 **Seite lädt auf anderen Geräten nicht**
@@ -92,6 +106,7 @@ server/   index.js (CLI) · app.js · cert.js · listener.js (HTTP+HTTPS auf ein
           room.js (Raumlogik) · signaling.js (WebSocket) · static.js · netinfo.js
 public/   index.html · hilfe.html · style.css · js/ (app, peers, audio, mic, ptt, chat, signaling, settings)
 test/     room · netinfo · cert · listener (npm test) · e2e (npm run test:e2e)
+android/  Android-App (Kotlin): MainActivity (WebView, Zertifikat-Fingerabdruck), VoiceService (Vordergrunddienst)
 ```
 
 | Paket | Wozu |

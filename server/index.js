@@ -71,6 +71,9 @@ async function main() {
   }
 
   console.log(`
+Zertifikat-Fingerabdruck (SHA-256, für die Android-App):
+  ${app.certFingerprint}
+
 Kommen Geräte nicht an?
   - Firewall: Windows fragt beim ersten Start; "Private Netzwerke" erlauben. Sonst:
       Windows : Einstellungen > Firewall > App zulassen > node.exe (Privat). WLAN-Profil auf "Privat" stellen.
