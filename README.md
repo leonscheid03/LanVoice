@@ -12,7 +12,15 @@ Selbst gehostete Sprach-App für Personen im **selben WLAN/LAN**. Ein Rechner st
 - Alle Geräte im selben WLAN/LAN.
 - Aktueller Chrome, Edge, Firefox oder Safari (auch iOS).
 
-## Start
+## Herunterladen und starten
+
+Auf dem Gastgeber-Rechner wird nur **Node.js** (LTS, von https://nodejs.org) gebraucht. Gäste brauchen nichts.
+
+**Variante A – fertiges Paket (einfach):** `download/LanVoice.zip` herunterladen (auf GitHub die Datei öffnen → „Download raw file“), entpacken und starten. Die benötigten Pakete sind schon enthalten, `npm install` ist nicht nötig.
+- Windows: Doppelklick auf `start.bat`
+- sonst im entpackten Ordner: `node server/index.js`
+
+**Variante B – aus dem Quellcode:** Repository klonen oder per „Code → Download ZIP“ laden, dann im Ordner:
 
 ```bash
 npm install
