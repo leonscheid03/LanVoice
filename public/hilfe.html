@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>LanVoice – Hilfe zum Beitreten</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="view help">
+    <h1>LanVoice</h1>
+    <p class="sub">So trittst du bei</p>
+
+    <p>Für das Mikrofon verlangt dein Browser eine verschlüsselte Verbindung (https). LanVoice erzeugt dafür ein eigenes Zertifikat auf dem Rechner des Gastgebers. Es stammt nicht von einer Internet-Zertifizierungsstelle, deshalb zeigt dein Browser <strong>einmalig eine Warnung</strong>. Die Verbindung ist trotzdem verschlüsselt und verlässt dein lokales Netz nicht.</p>
+
+    <p><a id="go" class="button primary" href="/">Weiter zu LanVoice (https)</a></p>
+
+    <p>Danach erscheint die Warnung. So bestätigst du sie:</p>
+
+    <details open>
+      <summary>iPhone / iPad (Safari)</summary>
+      <ol>
+        <li>„Diese Verbindung ist nicht privat“ &rarr; <strong>Details einblenden</strong>.</li>
+        <li><strong>Diese Website besuchen</strong> und im Dialog noch einmal <strong>Website besuchen</strong> bestätigen.</li>
+        <li>Mikrofon mit <strong>Erlauben</strong> freigeben.</li>
+      </ol>
+    </details>
+
+    <details>
+      <summary>Android (Chrome)</summary>
+      <ol>
+        <li>„Dies ist keine sichere Verbindung“ &rarr; <strong>Erweitert</strong>.</li>
+        <li><strong>Weiter zu … (unsicher)</strong> antippen.</li>
+        <li>Mikrofon mit <strong>Zulassen</strong> freigeben.</li>
+      </ol>
+    </details>
+
+    <details>
+      <summary>Windows / Mac / Linux (Chrome, Edge)</summary>
+      <ol>
+        <li>„Ihre Verbindung ist nicht privat“ &rarr; <strong>Erweitert</strong>.</li>
+        <li><strong>Weiter zu … (unsicher)</strong> klicken.</li>
+        <li>Mikrofon mit <strong>Zulassen</strong> freigeben.</li>
+      </ol>
+    </details>
+
+    <details>
+      <summary>Firefox</summary>
+      <ol>
+        <li>„Warnung: Mögliches Sicherheitsrisiko“ &rarr; <strong>Erweitert …</strong>.</li>
+        <li><strong>Risiko akzeptieren und fortfahren</strong>.</li>
+      </ol>
+    </details>
+
+    <details>
+      <summary>Safari am Mac</summary>
+      <ol>
+        <li><strong>Details einblenden</strong> &rarr; <strong>Diese Website besuchen</strong>.</li>
+      </ol>
+    </details>
+
+    <h2>Es lädt gar nichts?</h2>
+    <ul>
+      <li>Bist du im <strong>selben WLAN/LAN</strong> wie der Gastgeber (kein Mobilfunk, kein Gäste-WLAN)?</li>
+      <li>Manche Router haben eine <strong>Geräte-Isolation</strong> („AP-/Client-Isolation“), dann sehen sich Geräte nicht. Der Gastgeber muss sie abschalten.</li>
+      <li>Die <strong>Firewall</strong> des Gastgeber-Rechners muss den Zugriff aus dem lokalen Netz erlauben.</li>
+    </ul>
+    <p class="hint">Diese Seite wird aus dem lokalen Netz geladen. Es werden keine Daten ins Internet gesendet.</p>
+  </main>
+  <script type="module" src="/js/hilfe.js"></script>
+</body>
+</html>
