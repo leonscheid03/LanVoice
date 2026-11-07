@@ -203,6 +203,38 @@ test('Seite neu laden (gleiches Token, kein resume): andere verhandeln neu, Ton 
   assert.ok(await hasSound(a, idB, 6000), 'neu geladene Seite hört Ben nicht');
 });
 
+test('Android-Brücke: Seite meldet Betreten/Verlassen, "Server wechseln" nur in der App sichtbar', async () => {
+  // Im normalen Browser (ohne window.LanVoiceNative) bleibt der Knopf versteckt.
+  const plain = await open('Browser', { join: false });
+  assert.equal(await plain.locator('#native-server').isVisible(), false);
+
+  // Attrappe der App-Brücke; das Protokoll liegt im sessionStorage, weil "Verlassen" die Seite neu lädt.
+  const context = await browser.newContext({ ignoreHTTPSErrors: true, permissions: ['microphone'] });
+  contexts.push(context);
+  await context.addInitScript(() => {
+    const log = (entry) => {
+      const list = JSON.parse(sessionStorage.getItem('native-log') || '[]');
+      list.push(entry);
+      sessionStorage.setItem('native-log', JSON.stringify(list));
+    };
+    window.LanVoiceNative = {
+      setActive: (active, room) => log(['setActive', active, room]),
+      changeServer: () => log(['changeServer']),
+    };
+  });
+  const page = await context.newPage();
+  await page.goto(`https://localhost:${app.port}/?debug=1`);
+  assert.equal(await page.locator('#native-server').isVisible(), true);
+  await page.click('#native-server');
+  await page.fill('#name', 'Anna');
+  await page.click('#join-btn');
+  await page.waitForFunction(() => window.__lv && window.__lv.inRoom, null, { timeout: 15_000 });
+  await page.click('#leave-btn');
+  await page.waitForFunction(() => JSON.parse(sessionStorage.getItem('native-log') || '[]').length === 3, null, { timeout: 10_000 });
+  const log = await page.evaluate(() => JSON.parse(sessionStorage.getItem('native-log')));
+  assert.deepEqual(log, [['changeServer'], ['setActive', true, 'Voicechat'], ['setActive', false, '']]);
+});
+
 test('Mesh mit 6 Personen: alle verbinden sich, die 7. Person bekommt eine klare Meldung', async () => {
   const pages = [];
   for (let i = 1; i <= 6; i++) pages.push(await open(`Gast${i}`));

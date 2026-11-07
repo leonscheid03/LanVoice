@@ -146,6 +146,8 @@ class MainActivity : Activity() {
             allowContentAccess = false
             safeBrowsingEnabled = false // keine Anfragen an Google im lokalen Netz
         }
+        // Renderer-Prozess nicht als "unwichtig" einstufen, damit Android ihn im Hintergrund nicht zuerst beendet.
+        view.setRendererPriorityPolicy(WebView.RENDERER_PRIORITY_IMPORTANT, false)
         view.addJavascriptInterface(NativeBridge(), "LanVoiceNative")
         view.webViewClient = object : WebViewClient() {
             override fun onReceivedSslError(view: WebView, handler: SslErrorHandler, error: SslError) {

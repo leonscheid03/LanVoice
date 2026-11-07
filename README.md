@@ -61,6 +61,8 @@ Ein Browser darf das Mikrofon im Hintergrund nicht offen halten. Deshalb gibt es
 
 Grenzen: Manche Hersteller (Xiaomi, Huawei, Samsung u. a.) beenden Hintergrund-Apps trotzdem; dann in den Energiespar-/Autostart-Einstellungen der App alles erlauben. Die APK ist eine Debug-Version (nur zum Weitergeben, nicht für den Play Store). Auf dem Handy bitte prüfen: Ton in beide Richtungen bei ausgeschaltetem Bildschirm, 10 Minuten oder länger.
 
+Neue APK-Versionen müssen mit demselben Debug-Schlüssel (`~/.android/debug.keystore`) gebaut sein, sonst muss die alte App vorher deinstalliert werden (die gemerkten Fingerabdrücke gehen dann verloren).
+
 Selbst bauen: Android-SDK (Plattform 35) und JDK 17+ nötig; im Ordner `android/` dann `gradlew assembleDebug` (Ergebnis: `app/build/outputs/apk/debug/app-debug.apk`). Die App besteht aus drei Kotlin-Dateien ohne Zusatzbibliotheken.
 
 ## Fehlerbehebung

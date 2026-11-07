@@ -20,8 +20,9 @@ import android.os.PowerManager
  * Was er bewirkt:
  *  - Android erlaubt einer App im Hintergrund nur dann Mikrofonzugriff, wenn ein Vordergrunddienst vom
  *    Typ "microphone" läuft (dauerhafte Benachrichtigung inklusive).
- *  - Ein Wake Lock hält die CPU wach, eine WLAN-Sperre verhindert, dass das WLAN bei dunklem Bildschirm
- *    einschläft (das war die Ursache für lange Wiederverbindungszeiten nach Standby).
+ *  - Ein Wake Lock hält die CPU wach. Die WLAN-Sperre hilft nur eingeschränkt: Ab Android 14 hat die
+ *    "High-Perf"-Sperre keine Wirkung mehr, und die "Low-Latency"-Sperre gilt laut Doku nur bei
+ *    eingeschaltetem Bildschirm. Ob das WLAN bei dunklem Bildschirm wach bleibt, hängt also vom Gerät ab.
  *
  * Gestartet wird der Dienst von MainActivity, während die App sichtbar ist (aus dem Hintergrund
  * dürfte Android ihn nicht mehr mit Mikrofon starten).
@@ -98,7 +99,10 @@ class VoiceService : Service() {
         }
         if (wifiLock == null) {
             val wifi = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-            wifiLock = wifi.createWifiLock(WifiManager.WIFI_MODE_FULL_LOW_LATENCY, "lanvoice:wifi").apply {
+            // Bis Android 13 hält "High-Perf" das WLAN auch bei dunklem Bildschirm wach, danach nur noch "Low-Latency".
+            @Suppress("DEPRECATION")
+            val mode = if (Build.VERSION.SDK_INT < 34) WifiManager.WIFI_MODE_FULL_HIGH_PERF else WifiManager.WIFI_MODE_FULL_LOW_LATENCY
+            wifiLock = wifi.createWifiLock(mode, "lanvoice:wifi").apply {
                 setReferenceCounted(false)
                 acquire()
             }
